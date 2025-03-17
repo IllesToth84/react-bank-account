@@ -1,0 +1,88 @@
+body {
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+        url('/public/bank-account-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.App {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+button {
+    cursor: pointer;
+}
+
+.data-display {
+    border: 2px solid #fff;
+    min-width: 200px;
+    height: 150px;
+    margin: 0 auto;
+    padding: 1rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.data-display p {
+    font-size: 20px;
+}
+
+p.balance-number {
+    font-size: 14px;
+    color: #a5cffc;
+}
+
+.buttons button {
+    /* background-color: #fff; */
+    padding: 0.5rem;
+    min-width: 200px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* The Modal (background) */
+.modal {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(15, 93, 177, 0.85); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px; /* Could be more or less, depending on screen size */
+    color: #000;
+}
+
+.modal-buttons button {
+    background-color: #55a7ff;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    color: #fff;
+}
+
+.modal-buttons button:hover {
+    background-color: #1988ff;
+}
