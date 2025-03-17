@@ -1,7 +1,9 @@
 import './styles.css';
 import { useReducer, useState } from 'react';
-
-const AMOUNT_OF_LOAN = 5000;
+import DataDisplay from './components/DataDisplay';
+import AccountButtons from './components/AccountButtons';
+import RequestLoanModal from './components/RequestLoanModal';
+import CloseAccountModal from './components/CloseAccountModal';
 
 const initialState = {
     balance: 0,
@@ -70,141 +72,32 @@ export default function App() {
         <div className="App">
             <h1>useReducer Bank Account</h1>
 
-            <div className="data-display">
-                <p>Balance: {balance}</p>
-                <p>Loan: {loan}</p>
-                <p className="balance-number">
-                    &nbsp;{' '}
-                    {isActive
-                        ? `Number: ${balanceNumber}`
-                        : 'Open a bank account with us!'}
-                </p>
-            </div>
-            <div className="buttons">
-                <p>
-                    <button
-                        onClick={() => dispatch({ type: 'openAccount' })}
-                        disabled={isActive}
-                    >
-                        Open account
-                    </button>
-                </p>
-                <p>
-                    <button
-                        onClick={() =>
-                            dispatch({ type: 'deposit', payload: 150 })
-                        }
-                        disabled={!isActive}
-                    >
-                        Deposit 150
-                    </button>
-                </p>
-                <p>
-                    <button
-                        onClick={() =>
-                            dispatch({ type: 'withdraw', payload: 50 })
-                        }
-                        disabled={!isActive}
-                    >
-                        Withdraw 50
-                    </button>
-                </p>
-                <p>
-                    <button
-                        onClick={() => {
-                            if (loan > 0) {
-                                setOpenModal('requestLoanModal');
-                            } else {
-                                dispatch({
-                                    type: 'requestLoan',
-                                    payload: AMOUNT_OF_LOAN,
-                                });
-                            }
-                        }}
-                        disabled={!isActive}
-                    >
-                        Request a loan of {AMOUNT_OF_LOAN}
-                    </button>
-                </p>
-                {openModal === 'requestLoanModal' && (
-                    // The Modal
-                    <div className="modal">
-                        {/* Modal content */}
-                        <div className="modal-content">
-                            <h3>
-                                You have already requested a loan. Before you
-                                can take out a new loan, please repay the
-                                previous one.{' '}
-                            </h3>
-                            <div className="modal-buttons">
-                                <button onClick={() => setOpenModal(null)}>
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-                <p>
-                    <button
-                        onClick={() => dispatch({ type: 'payLoan' })}
-                        disabled={!isActive}
-                    >
-                        Pay loan
-                    </button>
-                </p>
-                <p>
-                    <button
-                        onClick={() => {
-                            if (balance === 0 && loan === 0) {
-                                setOpenModal('closeAccModal');
-                            } else {
-                                setOpenModal('cantCloseAccModal');
-                            }
-                        }}
-                        disabled={!isActive}
-                    >
-                        Close account
-                    </button>
-                </p>
-            </div>
-            {openModal === 'closeAccModal' && (
-                // The Modal
-                <div className="modal">
-                    {/* Modal content */}
-                    <div className="modal-content">
-                        <h3>Are you sure you want to close your account?</h3>
-                        <div className="modal-buttons">
-                            <button
-                                onClick={() => {
-                                    dispatch({ type: 'closeAccount' });
-                                    setOpenModal(null);
-                                }}
-                            >
-                                Yes
-                            </button>{' '}
-                            <button onClick={() => setOpenModal(null)}>
-                                No
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <DataDisplay
+                balance={balance}
+                loan={loan}
+                isActive={isActive}
+                balanceNumber={balanceNumber}
+            />
+
+            <AccountButtons
+                balance={balance}
+                loan={loan}
+                isActive={isActive}
+                dispatch={dispatch}
+                setOpenModal={setOpenModal}
+            />
+
+            {/* Modals  */}
+            {openModal === 'requestLoanModal' && (
+                <RequestLoanModal loan={loan} setOpenModal={setOpenModal} />
             )}
-            {openModal === 'cantCloseAccModal' && (
-                // The Modal
-                <div className="modal">
-                    {/* Modal content */}
-                    <div className="modal-content">
-                        <h3>
-                            You can only close your account if both your balance
-                            and your loan are equal to zero.{' '}
-                        </h3>
-                        <div className="modal-buttons">
-                            <button onClick={() => setOpenModal(null)}>
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            {openModal === 'CloseAccountModal' && (
+                <CloseAccountModal
+                    dispatch={dispatch}
+                    setOpenModal={setOpenModal}
+                    balance={balance}
+                    loan={loan}
+                />
             )}
         </div>
     );
