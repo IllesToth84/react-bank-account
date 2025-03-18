@@ -2,6 +2,7 @@ import './styles.css';
 import { useReducer, useState } from 'react';
 import DataDisplay from './components/DataDisplay';
 import AccountButtons from './components/AccountButtons';
+import WithdrawModal from './components/WithdrawModal';
 import RequestLoanModal from './components/RequestLoanModal';
 import CloseAccountModal from './components/CloseAccountModal';
 
@@ -10,6 +11,10 @@ const initialState = {
     loan: 0,
     isActive: false,
     balanceNumber: null,
+    depositeValue: 0,
+    withdrawValue: 0,
+    loanValue: 0,
+    payLoanValue: 0,
 };
 
 function generateAccountNumber() {
@@ -30,12 +35,15 @@ function reducer(state, action) {
         case 'deposit':
             return {
                 ...state,
-                balance: state.balance + action.payload,
+                balance: state.balance + Number(action.payload),
             };
         case 'withdraw':
             return {
                 ...state,
-                balance: state.balance - action.payload,
+                balance:
+                    state.balance - Number(action.payload) >= 0
+                        ? state.balance - Number(action.payload)
+                        : state.balance,
             };
 
         case 'requestLoan':
@@ -43,28 +51,52 @@ function reducer(state, action) {
             return {
                 ...state,
                 loan: action.payload,
-                balance: state.balance + action.payload,
+                balance: state.balance + Number(action.payload),
             };
 
         case 'payLoan':
             return {
                 ...state,
-                loan: 0,
-                balance: state.balance - state.loan,
+                loan:
+                    Number(action.payload) <= state.loan
+                        ? state.loan - Number(action.payload)
+                        : state.loan,
+                balance:
+                    Number(action.payload) <= state.loan
+                        ? state.balance - Number(action.payload)
+                        : state.balance,
             };
         case 'closeAccount':
             if (state.loan > 0 || state.balance !== 0) return state;
             return initialState;
+
+        case 'depositeValue':
+            return { ...state, depositeValue: action.payload };
+        case 'withdrawValue':
+            return { ...state, withdrawValue: action.payload };
+        case 'loanValue':
+            return { ...state, loanValue: action.payload };
+        case 'payLoanValue':
+            return { ...state, payLoanValue: action.payload };
         default:
             throw new Error('Action unknown');
     }
 }
 
 export default function App() {
-    const [{ balance, loan, isActive, balanceNumber }, dispatch] = useReducer(
-        reducer,
-        initialState
-    );
+    const [
+        {
+            balance,
+            loan,
+            isActive,
+            balanceNumber,
+            depositeValue,
+            withdrawValue,
+            loanValue,
+            payLoanValue,
+        },
+        dispatch,
+    ] = useReducer(reducer, initialState);
 
     const [openModal, setOpenModal] = useState(null);
 
@@ -85,13 +117,24 @@ export default function App() {
                 isActive={isActive}
                 dispatch={dispatch}
                 setOpenModal={setOpenModal}
+                depositeValue={depositeValue}
+                withdrawValue={withdrawValue}
+                loanValue={loanValue}
+                payLoanValue={payLoanValue}
             />
 
             {/* Modals  */}
-            {openModal === 'requestLoanModal' && (
-                <RequestLoanModal loan={loan} setOpenModal={setOpenModal} />
+            {openModal === 'withdrawModal' && (
+                <WithdrawModal setOpenModal={setOpenModal} />
             )}
-            {openModal === 'CloseAccountModal' && (
+            {openModal === 'requestLoanModal' && (
+                <RequestLoanModal
+                    loan={loan}
+                    payLoanValue={payLoanValue}
+                    setOpenModal={setOpenModal}
+                />
+            )}
+            {openModal === 'closeAccountModal' && (
                 <CloseAccountModal
                     dispatch={dispatch}
                     setOpenModal={setOpenModal}
