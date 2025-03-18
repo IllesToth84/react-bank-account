@@ -1,4 +1,4 @@
-function AccountButtons({ balance, loan, isActive, dispatch, setOpenModal }) {
+function AccountButtons({ loan, isActive, dispatch, setOpenModal }) {
     const AMOUNT_OF_LOAN = 5000;
 
     return (
@@ -7,6 +7,7 @@ function AccountButtons({ balance, loan, isActive, dispatch, setOpenModal }) {
                 <button
                     onClick={() => dispatch({ type: 'openAccount' })}
                     disabled={isActive}
+                    className={!isActive ? 'btn-active' : ''}
                 >
                     Open account
                 </button>
@@ -15,6 +16,7 @@ function AccountButtons({ balance, loan, isActive, dispatch, setOpenModal }) {
                 <button
                     onClick={() => dispatch({ type: 'deposit', payload: 150 })}
                     disabled={!isActive}
+                    className={isActive ? 'btn-active' : ''}
                 >
                     Deposit 150
                 </button>
@@ -23,6 +25,7 @@ function AccountButtons({ balance, loan, isActive, dispatch, setOpenModal }) {
                 <button
                     onClick={() => dispatch({ type: 'withdraw', payload: 50 })}
                     disabled={!isActive}
+                    className={isActive ? 'btn-active' : ''}
                 >
                     Withdraw 50
                 </button>
@@ -40,6 +43,7 @@ function AccountButtons({ balance, loan, isActive, dispatch, setOpenModal }) {
                         }
                     }}
                     disabled={!isActive}
+                    className={isActive ? 'btn-active' : ''}
                 >
                     Request a loan of {AMOUNT_OF_LOAN}
                 </button>
@@ -56,6 +60,7 @@ function AccountButtons({ balance, loan, isActive, dispatch, setOpenModal }) {
                         }
                     }}
                     disabled={!isActive}
+                    className={isActive ? 'btn-active' : ''}
                 >
                     Pay loan
                 </button>
@@ -66,6 +71,7 @@ function AccountButtons({ balance, loan, isActive, dispatch, setOpenModal }) {
                         setOpenModal('CloseAccountModal');
                     }}
                     disabled={!isActive}
+                    className={isActive ? 'btn-active' : ''}
                 >
                     Close account
                 </button>
