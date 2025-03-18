@@ -16,6 +16,9 @@ body {
     font-family: 'Roboto', sans-serif;
     color: white;
     text-align: center;
+}
+
+.container {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -27,7 +30,6 @@ button {
 
 .data-display {
     border: 2px solid #fff;
-    min-width: 220px;
     height: 150px;
     margin: 0 auto;
     padding: 1rem 5rem;
@@ -52,7 +54,7 @@ p.balance-number {
 }
 
 .buttons button {
-    min-width: 200px;
+    min-width: 150px;
     font-size: 14px;
 }
 

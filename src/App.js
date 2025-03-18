@@ -102,46 +102,48 @@ export default function App() {
 
     return (
         <div className="App">
-            <h1>useReducer Bank Account</h1>
+            <div className="container">
+                <h1>useReducer Bank Account</h1>
 
-            <DataDisplay
-                balance={balance}
-                loan={loan}
-                isActive={isActive}
-                balanceNumber={balanceNumber}
-            />
-
-            <AccountButtons
-                balance={balance}
-                loan={loan}
-                isActive={isActive}
-                dispatch={dispatch}
-                setOpenModal={setOpenModal}
-                depositeValue={depositeValue}
-                withdrawValue={withdrawValue}
-                loanValue={loanValue}
-                payLoanValue={payLoanValue}
-            />
-
-            {/* Modals  */}
-            {openModal === 'withdrawModal' && (
-                <WithdrawModal setOpenModal={setOpenModal} />
-            )}
-            {openModal === 'requestLoanModal' && (
-                <RequestLoanModal
-                    loan={loan}
-                    payLoanValue={payLoanValue}
-                    setOpenModal={setOpenModal}
-                />
-            )}
-            {openModal === 'closeAccountModal' && (
-                <CloseAccountModal
-                    dispatch={dispatch}
-                    setOpenModal={setOpenModal}
+                <DataDisplay
                     balance={balance}
                     loan={loan}
+                    isActive={isActive}
+                    balanceNumber={balanceNumber}
                 />
-            )}
+
+                <AccountButtons
+                    balance={balance}
+                    loan={loan}
+                    isActive={isActive}
+                    dispatch={dispatch}
+                    setOpenModal={setOpenModal}
+                    depositeValue={depositeValue}
+                    withdrawValue={withdrawValue}
+                    loanValue={loanValue}
+                    payLoanValue={payLoanValue}
+                />
+
+                {/* Modals  */}
+                {openModal === 'withdrawModal' && (
+                    <WithdrawModal setOpenModal={setOpenModal} />
+                )}
+                {openModal === 'requestLoanModal' && (
+                    <RequestLoanModal
+                        loan={loan}
+                        payLoanValue={payLoanValue}
+                        setOpenModal={setOpenModal}
+                    />
+                )}
+                {openModal === 'closeAccountModal' && (
+                    <CloseAccountModal
+                        dispatch={dispatch}
+                        setOpenModal={setOpenModal}
+                        balance={balance}
+                        loan={loan}
+                    />
+                )}
+            </div>
         </div>
     );
 }
