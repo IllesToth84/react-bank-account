@@ -11,10 +11,10 @@ const initialState = {
     loan: 0,
     isActive: false,
     balanceNumber: null,
-    depositeValue: 0,
-    withdrawValue: 0,
-    loanValue: 0,
-    payLoanValue: 0,
+    depositeValue: '',
+    withdrawValue: '',
+    loanValue: '',
+    payLoanValue: '',
 };
 
 function generateAccountNumber() {
@@ -36,6 +36,7 @@ function reducer(state, action) {
             return {
                 ...state,
                 balance: state.balance + Number(action.payload),
+                depositeValue: '',
             };
         case 'withdraw':
             return {
@@ -44,6 +45,7 @@ function reducer(state, action) {
                     state.balance - Number(action.payload) >= 0
                         ? state.balance - Number(action.payload)
                         : state.balance,
+                withdrawValue: '',
             };
 
         case 'requestLoan':
@@ -52,6 +54,7 @@ function reducer(state, action) {
                 ...state,
                 loan: action.payload,
                 balance: state.balance + Number(action.payload),
+                loanValue: '',
             };
 
         case 'payLoan':
@@ -65,11 +68,8 @@ function reducer(state, action) {
                     Number(action.payload) <= state.loan
                         ? state.balance - Number(action.payload)
                         : state.balance,
+                payLoanValue: '',
             };
-        case 'closeAccount':
-            if (state.loan > 0 || state.balance !== 0) return state;
-            return initialState;
-
         case 'depositeValue':
             return { ...state, depositeValue: action.payload };
         case 'withdrawValue':
@@ -78,6 +78,25 @@ function reducer(state, action) {
             return { ...state, loanValue: action.payload };
         case 'payLoanValue':
             return { ...state, payLoanValue: action.payload };
+        case 'clearInputs':
+            return {
+                ...state,
+                depositeValue:
+                    action.payload === 'depositeValue'
+                        ? state.depositeValue
+                        : '',
+                withdrawValue:
+                    action.payload === 'withdrawValue'
+                        ? state.withdrawValue
+                        : '',
+                loanValue:
+                    action.payload === 'loanValue' ? state.loanValue : '',
+                payLoanValue:
+                    action.payload === 'payLoanValue' ? state.payLoanValue : '',
+            };
+        case 'closeAccount':
+            if (state.loan > 0 || state.balance !== 0) return state;
+            return initialState;
         default:
             throw new Error('Action unknown');
     }
@@ -131,6 +150,7 @@ export default function App() {
                 {openModal === 'requestLoanModal' && (
                     <RequestLoanModal
                         loan={loan}
+                        loanValue={loanValue}
                         payLoanValue={payLoanValue}
                         setOpenModal={setOpenModal}
                     />
